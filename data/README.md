@@ -19,3 +19,9 @@ A linha 14, de código `099`, tem a categoria vazia para demonstrar a validaçã
 Para integrar uma consulta, `buscar_por_codigo` devolve `None` se o código estiver ausente. `filtrar` devolve uma lista e exige que cada registro satisfaça os dois filtros quando ambos são informados. Valores de filtro inválidos geram `ValueError`.
 
 Execute os testes na raiz do repositório com `PYTHONPATH=src python3 -B -m unittest discover -s tests`.
+
+## Histórico de alterações
+
+`historico.csv` usa uma linha por evento. O cabeçalho identifica as colunas `codigo`, `situacao_anterior`, `nova_situacao` e `dia`. A ordem das colunas pode mudar, desde que cada nome apareça exatamente uma vez. O dia usa algarismos decimais e começa em 1.
+
+O histórico simulado é aplicado na ordem das linhas. O painel rejeita eventos cujo código ou situação anterior não coincide com o cadastro e segue lendo as outras linhas. A consulta mostra os últimos eventos registrados primeiro. O dia simulado aparece em cada linha e pode variar de uma ocorrência para outra.

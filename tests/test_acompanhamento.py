@@ -197,6 +197,20 @@ class AcompanhamentoTest(unittest.TestCase):
         self.assertTrue(all("inteiro positivo" in msg for msg in rejeicoes))
         self.assertEqual([e["codigo"] for e in self.acompanhamento["historico"]], ["003"])
 
+    def test_csv_aceita_bom_colunas_reordenadas_e_linhas_vazias(self):
+        dados = (
+            "dia,codigo,nova_situacao,situacao_anterior\n"
+            "2,001,em análise,aberta\n\n"
+            "5,001,concluída,em análise\n"
+        )
+        with TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "historico.csv"
+            caminho.write_text(dados, encoding="utf-8-sig")
+            self.assertEqual(self.carregar(caminho), [])
+
+        self.assertEqual(self.cadastro["por_codigo"]["001"]["situacao"], "concluída")
+        self.assertEqual([e["dia"] for e in eventos_recentes(self.acompanhamento)], [5, 2])
+
     def test_csv_de_exemplo_produz_os_estados_e_a_fila_do_contrato(self):
         caminho = Path(__file__).resolve().parents[1] / "data" / "historico.csv"
         self.assertEqual(self.carregar(caminho), [])
