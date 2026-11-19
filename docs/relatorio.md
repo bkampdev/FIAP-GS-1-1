@@ -85,7 +85,7 @@ Entre as 12 ocorrências, três estão concluídas. Conservação soma três pen
 
 ### Verificação dos resultados
 
-Uma execução com uma base fictícia independente e os módulos em desenvolvimento confirmou a fila, o histórico, a matriz e os cálculos. O ensaio também cobriu a rejeição de duplicidade e de salto de situação. Na versão integrada, rode a suíte:
+A versão integrada passou em 25 testes automatizados. Com os CSVs do projeto, o ensaio confirmou a fila, o histórico, a matriz e as rejeições de duplicidade e de salto de situação. Para repetir a verificação, rode a suíte:
 
 ```bash
 PYTHONPATH=src python3 -B -m unittest discover -s tests
@@ -93,7 +93,7 @@ PYTHONPATH=src python3 -B -m unittest discover -s tests
 
 Em seguida, reproduza o roteiro no menu iniciado com `python src/sistema.py`.
 
-| Cenário | Resultado esperado no terminal |
+| Cenário | Resultado observado no terminal |
 | --- | --- |
 | Inicialização | Aviso sobre a linha inválida e 12 ocorrências válidas. |
 | Cadastro, busca e filtro | `013` localizável por código e no filtro de iluminação aberta. |

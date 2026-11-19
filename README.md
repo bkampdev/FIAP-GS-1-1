@@ -42,7 +42,7 @@ PYTHONPATH=src python3 -B -m unittest discover -s tests
 | `src/indicadores.py` | Cálculo e apresentação dos indicadores. |
 | `data/dados.csv` e `data/historico.csv` | Base fictícia e eventos simulados de inicialização. |
 | `tests/` | Testes da aplicação. |
-| `docs/` | Relatório em [Markdown](docs/relatorio.md) e PDF (`docs/relatorio.pdf`), [roteiro de demonstração](docs/roteiro_video.md), [registro de apoio de IA](docs/uso_ia.md) e [link do vídeo](docs/link_video.txt). |
+| `docs/` | Relatório em [Markdown](docs/relatorio.md) e [PDF](docs/relatorio.pdf), [roteiro de demonstração](docs/roteiro_video.md), [registro de apoio de IA](docs/uso_ia.md) e [link do vídeo](docs/link_video.txt). |
 
 ## Dados, estruturas e regras
 
@@ -98,6 +98,15 @@ No cenário simulado, conservação concentra três pendências e nenhuma conclu
 3. Em `4` (filtro), selecione `iluminação` e `aberta`. Antes da atualização, o resultado esperado inclui `003` e `013`.
 4. Em `5` (atualização), informe `013`, `em análise` e dia `18`. Em `7` (histórico), confira o novo evento. Ao repetir o filtro anterior, só `003` permanece.
 5. Em `8` (indicadores), espere 13 ocorrências, 5 abertas, 5 em análise, 3 concluídas, 10 pendências e média de conclusão de 6 dias.
+
+Trechos do terminal após a atualização e a abertura do painel.
+
+```text
+013 | dia 18 | aberta -> em análise
+Total de ocorrências: 13
+Pendências: 10 (abertas + em análise)
+Tempo médio até conclusão: 6,00 dias
+```
 
 ## Acessibilidade, inclusão e privacidade
 
