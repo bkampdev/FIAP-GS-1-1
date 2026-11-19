@@ -1,6 +1,6 @@
 # Base de ocorrências do Jardim Horizonte
 
-`dados.csv` usa UTF-8, vírgula como separador e uma primeira linha com os nomes das colunas na ordem abaixo. Use uma linha por ocorrência. Todos os campos são obrigatórios. Campos de texto com vírgula são delimitados por aspas duplas.
+`dados.csv` usa UTF-8, vírgula como separador e uma primeira linha com os nomes das colunas na ordem abaixo. Use uma linha por ocorrência. Todos os campos são obrigatórios. Campos de texto com vírgula são delimitados por aspas duplas. Os campos são de uma linha e devem usar texto legível no terminal.
 
 | Campo | Conteúdo |
 | --- | --- |
