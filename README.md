@@ -1,6 +1,6 @@
 # Neighborhood Action Dashboard
 
-Global Solution 2026.2 · CitizenTech · Grupo 2 · Ciência da Computação ON, FIAP
+Global Solution 2026.2 · CitizenTech · Turma 1CCOR-2026 · Grupo 2 · Ciência da Computação ON, FIAP
 
 ## Equipe
 
