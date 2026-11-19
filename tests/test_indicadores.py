@@ -1,6 +1,6 @@
 import unittest
 
-from indicadores import calcular_indicadores
+from indicadores import calcular_indicadores, formatar_indicadores
 from ocorrencias import CATEGORIAS, SITUACOES
 
 
@@ -29,3 +29,19 @@ class TestIndicadores(unittest.TestCase):
         self.assertEqual(indicadores["proporcoes_categoria"]["limpeza"], 0.5)
         self.assertEqual(indicadores["pendencias"], 1)
         self.assertEqual(indicadores["tempo_medio_conclusao"], 4.0)
+
+    def test_painel_mostra_ausencia_de_conclusoes_e_proporcao_zero(self):
+        painel = formatar_indicadores(calcular_indicadores([], []))
+        self.assertIn("Total de ocorrências: 0", painel)
+        self.assertIn("0,00%", painel)
+        self.assertIn("Tempo médio até conclusão: sem conclusões registradas", painel)
+
+    def test_painel_arredonda_percentuais_com_virgula_decimal(self):
+        ocorrencias = [
+            {"codigo": "001", "situacao": "aberta", "categoria": "iluminação", "dia_abertura": 1},
+            {"codigo": "002", "situacao": "aberta", "categoria": "iluminação", "dia_abertura": 2},
+            {"codigo": "003", "situacao": "em análise", "categoria": "limpeza", "dia_abertura": 3},
+        ]
+        painel = formatar_indicadores(calcular_indicadores(ocorrencias, []))
+        linha = next(s for s in painel.splitlines() if s.startswith("Percentual por situação"))
+        self.assertEqual([campo.strip() for campo in linha.split("|")[1:]], ["66,67%", "33,33%", "0,00%"])
