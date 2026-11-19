@@ -116,7 +116,7 @@ def _mostrar_fila(acompanhamento):
 
 
 def _mostrar_historico(acompanhamento):
-    print("Histórico de alterações (mais recentes primeiro)")
+    print("Histórico de alterações (últimas registradas primeiro)")
     eventos = eventos_recentes(acompanhamento)
     if not eventos:
         print("Nenhuma alteração registrada.")

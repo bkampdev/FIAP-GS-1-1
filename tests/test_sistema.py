@@ -10,13 +10,6 @@ from unittest.mock import patch
 
 
 RAIZ = Path(__file__).resolve().parent.parent
-ARQUIVOS_INTEGRACAO = (
-    "src/ocorrencias.py",
-    "src/acompanhamento.py",
-    "src/indicadores.py",
-    "data/dados.csv",
-    "data/historico.csv",
-)
 FILA_INICIAL = "003 -> 006 -> 009 -> 011 -> 012"
 NOVO_CADASTRO = (
     "2", "013", "iluminação", "Poste com lâmpada apagada", "Jardim Horizonte",
@@ -25,12 +18,6 @@ NOVO_CADASTRO = (
 
 
 class TestSistema(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        faltantes = [arquivo for arquivo in ARQUIVOS_INTEGRACAO if not (RAIZ / arquivo).is_file()]
-        if faltantes:
-            raise unittest.SkipTest("Depende da integração de: " + ", ".join(faltantes))
-
     def executar(self, *entradas):
         # Também verifica que o sistema localiza os CSVs fora da raiz do projeto.
         with TemporaryDirectory() as pasta:
@@ -112,11 +99,11 @@ class TestSistema(unittest.TestCase):
         self.assertIn(f"Fila de ocorrências abertas\n{FILA_INICIAL}\n", saida)
         self.assertIn("Ocorrência 013 atualizada com sucesso: aberta -> em análise (dia 18).", saida)
         self.assertIn(
-            "Histórico de alterações (mais recentes primeiro)\n013 | dia 18 | aberta -> em análise\n",
+            "Histórico de alterações (últimas registradas primeiro)\n013 | dia 18 | aberta -> em análise\n",
             saida,
         )
         self.assertIn(
-            "Histórico de alterações (mais recentes primeiro)\n"
+            "Histórico de alterações (últimas registradas primeiro)\n"
             "013 | dia 19 | em análise -> concluída\n013 | dia 18 | aberta -> em análise\n",
             saida,
         )
