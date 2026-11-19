@@ -110,7 +110,7 @@ Tempo médio até conclusão: 6,00 dias
 
 ## Acessibilidade, inclusão e privacidade
 
-As opções numeradas permitem navegar pelo teclado. Rótulos em português, situações por extenso e mensagens curtas ajudam pessoas com diferentes níveis de familiaridade com tecnologia e comunicam o resultado sem depender de cor. O vídeo deve acompanhar cada ação com narração e legendas revisadas. A avaliação com moradores reais e o uso com leitores de tela continuam pendentes.
+As opções numeradas permitem navegar pelo teclado. Rótulos em português, situações por extenso e mensagens curtas ajudam pessoas com diferentes níveis de familiaridade com tecnologia e comunicam o resultado sem depender de cor. Na demonstração, a narração, o cursor e os destaques no terminal acompanham a ação descrita. A avaliação com moradores reais e o uso com leitores de tela continuam pendentes.
 
 A base e os exemplos descrevem espaços coletivos fictícios. Ao preencher os campos livres, descreva o problema e use um local genérico. Evite nomes, telefones, endereços residenciais e outros dados que permitam identificar alguém.
 
@@ -124,7 +124,7 @@ O painel é um protótipo local com dados simulados e registros temporários. O 
 
 ## Vídeo e entrega
 
-A publicação do vídeo no YouTube como **Não listado** está pendente. Após a confirmação, a URL completa será registrada nesta seção e em [docs/link_video.txt](docs/link_video.txt). O [roteiro de demonstração](docs/roteiro_video.md) orienta a gravação e o preparo do TXT para o FIAP ON.
+[Assista à demonstração do Grupo 2 no YouTube](https://www.youtube.com/watch?v=HEcNStd6Kv8) (2min54s, **Não listado**). O [TXT para o FIAP ON](docs/entrega_fiap_on.txt) contém os links do repositório e do vídeo, um por linha.
 
 O [relatório em Markdown](docs/relatorio.md) é a fonte do PDF. Com o ReportLab instalado em um ambiente de documentação, rode:
 
