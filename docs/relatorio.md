@@ -85,7 +85,7 @@ Entre as 12 ocorrências, três estão concluídas. Conservação soma três pen
 
 ### Verificação dos resultados
 
-A versão integrada passou em 25 testes automatizados. Com os CSVs do projeto, o ensaio confirmou a fila, o histórico, a matriz e as rejeições de duplicidade e de salto de situação. Para repetir a verificação, rode a suíte:
+A versão integrada passou em 33 testes automatizados. Com os CSVs do projeto, o ensaio confirmou a fila, o histórico, a matriz e as rejeições de duplicidade e de salto de situação. Para repetir a verificação, rode a suíte:
 
 ```bash
 PYTHONPATH=src python3 -B -m unittest discover -s tests

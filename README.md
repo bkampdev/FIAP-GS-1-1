@@ -126,7 +126,13 @@ O painel é um protótipo local com dados simulados e registros temporários. O 
 
 A publicação do vídeo no YouTube como **Não listado** está pendente. Após a confirmação, a URL completa será registrada nesta seção e em [docs/link_video.txt](docs/link_video.txt). O [roteiro de demonstração](docs/roteiro_video.md) orienta a gravação e o preparo do TXT para o FIAP ON.
 
-Para atualizar o PDF, exporte o [relatório em Markdown](docs/relatorio.md) em A4, iniciando cada seção principal em uma página. Confira se o resultado tem de 4 a 8 páginas e salve em `docs/relatorio.pdf`. A geração do documento pode usar ReportLab com o ambiente de documentação. A execução do painel usa apenas a biblioteca padrão do Python.
+O [relatório em Markdown](docs/relatorio.md) é a fonte do PDF. Com o ReportLab instalado em um ambiente de documentação, rode:
+
+```bash
+python3 scripts/gerar_relatorio.py
+```
+
+O comando grava `docs/relatorio.pdf` em A4. Confira se o resultado tem de 4 a 8 páginas. A execução do painel usa apenas a biblioteca padrão do Python.
 
 ## Referências
 
