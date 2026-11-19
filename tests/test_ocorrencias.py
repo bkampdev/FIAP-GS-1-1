@@ -27,6 +27,27 @@ class TestOcorrencias(unittest.TestCase):
             "situacao": "aberta",
         }
 
+    def test_rejeita_caracteres_de_controle_nos_campos_de_texto(self):
+        casos = (("descricao", "Resíduo\nna praça"), ("local", "Praça\x1b[31m"))
+        for campo, valor in casos:
+            with self.subTest(campo=campo):
+                with self.assertRaisesRegex(ValueError, "caractere de controle"):
+                    cadastrar(self.cadastro, {**self.dados, campo: valor})
+                self.assertEqual(self.cadastro, criar_cadastro())
+
+    def test_csv_preserva_virgulas_em_campos_entre_aspas(self):
+        dados = (
+            "codigo,categoria,descricao,bairro,local,dia_abertura,situacao\n"
+            '013,limpeza,"Folhas, papéis e resíduos",Jardim Horizonte,Praça Central,17,aberta\n'
+        )
+        with TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "dados.csv"
+            caminho.write_text(dados, encoding="utf-8")
+            cadastro, rejeicoes = carregar_ocorrencias(caminho)
+
+        self.assertEqual(rejeicoes, [])
+        self.assertEqual(buscar_por_codigo(cadastro, "013")["descricao"], "Folhas, papéis e resíduos")
+
     def test_base_ficticia_com_uma_rejeicao(self):
         caminho = Path(__file__).resolve().parents[1] / "data" / "dados.csv"
         cadastro, rejeicoes = carregar_ocorrencias(caminho)

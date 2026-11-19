@@ -128,7 +128,10 @@ def carregar_historico(caminho, cadastro, acompanhamento):
                         f"Esperada {ocorrencia['situacao']!r}."
                     )
                 try:
-                    dia = int(evento["dia"])
+                    texto = evento["dia"].strip()
+                    if not texto.isdecimal():
+                        raise ValueError(_MENSAGEM_DIA_INVALIDO)
+                    dia = int(texto)
                 except ValueError:
                     raise ValueError(_MENSAGEM_DIA_INVALIDO) from None
                 atualizar_situacao(cadastro, acompanhamento, codigo, evento["nova_situacao"], dia)
