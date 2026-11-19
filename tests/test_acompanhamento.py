@@ -1,4 +1,3 @@
-import csv
 import unittest
 from copy import deepcopy
 from pathlib import Path
@@ -162,13 +161,25 @@ class AcompanhamentoTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Cabeçalho inválido"):
                 self.carregar(caminho)
 
-            caminho.write_text(
-                'codigo,situacao_anterior,nova_situacao,dia\n"001,aberta,em análise,4\n',
-                encoding="utf-8",
-            )
-            with self.assertRaises(csv.Error):
-                self.carregar(caminho)
         self.assertEqual(estado, antes)
+
+    def test_csv_rejeita_aspas_malformadas_sem_perder_outros_eventos(self):
+        dados = (
+            'codigo,situacao_anterior,nova_situacao,dia\n'
+            '001,aberta,em análise,2\n'
+            '"003,aberta,em análise,4\n'
+            '005,aberta,em análise,6\n'
+        )
+        with TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "historico.csv"
+            caminho.write_text(dados, encoding="utf-8")
+            rejeicoes = self.carregar(caminho)
+
+        self.assertEqual(len(rejeicoes), 1)
+        self.assertIn("Linha 3 do histórico: formato CSV inválido", rejeicoes[0])
+        codigos = [evento["codigo"] for evento in self.acompanhamento["historico"]]
+        self.assertEqual(codigos, ["001", "005"])
+        self.assertIn("003", self.acompanhamento["fila"])
 
     def test_csv_de_exemplo_produz_os_estados_e_a_fila_do_contrato(self):
         caminho = Path(__file__).resolve().parents[1] / "data" / "historico.csv"
