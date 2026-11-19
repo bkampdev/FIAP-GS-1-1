@@ -181,6 +181,22 @@ class AcompanhamentoTest(unittest.TestCase):
         self.assertEqual(codigos, ["001", "005"])
         self.assertIn("003", self.acompanhamento["fila"])
 
+    def test_csv_rejeita_notacoes_que_nao_sao_algarismos_decimais(self):
+        dados = (
+            "codigo,situacao_anterior,nova_situacao,dia\n"
+            "001,aberta,em análise,1_2\n"
+            "002,aberta,em análise,+13\n"
+            "003,aberta,em análise,14\n"
+        )
+        with TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "historico.csv"
+            caminho.write_text(dados, encoding="utf-8")
+            rejeicoes = self.carregar(caminho)
+
+        self.assertEqual(len(rejeicoes), 2)
+        self.assertTrue(all("inteiro positivo" in msg for msg in rejeicoes))
+        self.assertEqual([e["codigo"] for e in self.acompanhamento["historico"]], ["003"])
+
     def test_csv_de_exemplo_produz_os_estados_e_a_fila_do_contrato(self):
         caminho = Path(__file__).resolve().parents[1] / "data" / "historico.csv"
         self.assertEqual(self.carregar(caminho), [])
