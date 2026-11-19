@@ -38,6 +38,8 @@ def cadastrar(cadastro, dados):
             if not isinstance(valor, str) or not valor.strip():
                 raise ValueError(f"O campo {campo} é obrigatório e deve conter texto.")
             valor = valor.strip()
+            if any(ord(caractere) < 32 or 127 <= ord(caractere) < 160 for caractere in valor):
+                raise ValueError(f"O campo {campo} contém um caractere de controle.")
         ocorrencia[campo] = valor
 
     codigo = ocorrencia["codigo"]
