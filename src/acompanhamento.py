@@ -12,8 +12,9 @@ as últimas mudanças, começando pelo topo e preservando os eventos.
 
 import csv
 
+from ocorrencias import SITUACOES
 
-_SITUACOES = ("aberta", "em análise", "concluída")
+
 _CAMPOS_HISTORICO = ("codigo", "situacao_anterior", "nova_situacao", "dia")
 _MENSAGEM_DIA_INVALIDO = "O dia deve ser um número inteiro positivo."
 
@@ -50,7 +51,7 @@ def atualizar_situacao(cadastro, acompanhamento, codigo, nova_situacao, dia):
     """
     ocorrencia = _buscar_ocorrencia(cadastro, codigo)
     situacao_anterior = ocorrencia["situacao"]
-    if nova_situacao not in _SITUACOES:
+    if nova_situacao not in SITUACOES:
         raise ValueError(f"Situação inválida: {nova_situacao!r}.")
     if nova_situacao == situacao_anterior:
         raise ValueError(f"A ocorrência {codigo} já está na situação {nova_situacao!r}.")
@@ -98,30 +99,41 @@ def atualizar_situacao(cadastro, acompanhamento, codigo, nova_situacao, dia):
 def carregar_historico(caminho, cadastro, acompanhamento):
     """Aplica as linhas válidas do CSV e devolve os motivos das rejeições."""
     rejeicoes = []
-    with open(caminho, encoding="utf-8", newline="") as arquivo:
-        leitor = csv.DictReader(arquivo, strict=True)
-        campos = leitor.fieldnames
-        if not campos or sorted(campos) != sorted(_CAMPOS_HISTORICO):
+    with open(caminho, encoding="utf-8-sig", newline="") as arquivo:
+        try:
+            campos = next(csv.reader([arquivo.readline()], strict=True))
+        except csv.Error:
+            campos = []
+        if sorted(campos) != sorted(_CAMPOS_HISTORICO):
             esperado = ", ".join(_CAMPOS_HISTORICO)
             raise ValueError(f"Cabeçalho inválido no histórico. Esperado {esperado}.")
-        for linha in leitor:
+
+        for numero_linha, linha in enumerate(arquivo, start=2):
+            if not linha.strip():
+                continue
             try:
-                if None in linha or None in linha.values():
+                valores = next(csv.reader([linha], strict=True))
+            except csv.Error:
+                rejeicoes.append(f"Linha {numero_linha} do histórico: formato CSV inválido.")
+                continue
+            try:
+                if len(valores) != len(campos):
                     raise ValueError("Quantidade de campos inválida.")
-                codigo = linha["codigo"]
+                evento = dict(zip(campos, valores))
+                codigo = evento["codigo"]
                 ocorrencia = _buscar_ocorrencia(cadastro, codigo)
-                if linha["situacao_anterior"] != ocorrencia["situacao"]:
+                if evento["situacao_anterior"] != ocorrencia["situacao"]:
                     raise ValueError(
                         f"Situação anterior divergente para a ocorrência {codigo}. "
                         f"Esperada {ocorrencia['situacao']!r}."
                     )
                 try:
-                    dia = int(linha["dia"])
+                    dia = int(evento["dia"])
                 except ValueError:
                     raise ValueError(_MENSAGEM_DIA_INVALIDO) from None
-                atualizar_situacao(cadastro, acompanhamento, codigo, linha["nova_situacao"], dia)
+                atualizar_situacao(cadastro, acompanhamento, codigo, evento["nova_situacao"], dia)
             except ValueError as erro:
-                rejeicoes.append(f"Linha {leitor.line_num} do histórico: {erro}")
+                rejeicoes.append(f"Linha {numero_linha} do histórico: {erro}")
     return rejeicoes
 
 
